@@ -1,0 +1,38 @@
+diff --git a/js/configs.js b/js/configs.js
+old mode 100644
+new mode 100755
+index 565f860..3b88b7c
+--- a/js/configs.js
++++ b/js/configs.js
+@@ -1,7 +1,9 @@
+ var configs = {
+   appname: "overpass-turbo",
+-  defaultServer: "//overpass-api.de/api/",
++  defaultServer: "https://overpass.nchc.org.tw/api/",
+   suggestedServers: [
++    "http://140.110.240.52/api/",
++    "https://140.110.240.52/api/",
+     "//overpass-api.de/api/",
+     "http://overpass.osm.rambler.ru/cgi/",
+     "http://api.openstreetmap.fr/oapi/",
+@@ -10,15 +12,16 @@ var configs = {
+   tileServerAttribution: "&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>",
+   suggestedTiles: [
+     "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
++// consider set to nchc -> hsinchu.tile.openstreetmap.org or tw.tile.openstreetmap.org
+     //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+     //"http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
+     //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
+     //"http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg",
+   ],
+   defaultMapView: {
+-    lat: 41.890,
+-    lon: 12.492,
+-    zoom: 16
++    lat: 23.5,
++    lon: 121.33,
++    zoom: 8
+   },
+   maxMapZoom: 20,
+   short_url_service: "",
+
