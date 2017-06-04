@@ -1,0 +1,20 @@
+#!/bin/bash
+/home/osm/bin/dispatcher --terminate
+/home/osm/bin/dispatcher --terminate
+rm /home/osm/db/osm3s_v0.7.52_*
+rm /dev/shm/osm3s_v0.7.52_*
+/home/osm/bin/dispatcher --osm-base  --attic --db-dir=/home/osm/db/ &
+sleep 2
+/home/osm/bin/dispatcher --areas --attic --db-dir=/home/osm/db &
+chmod 666 /home/osm/db/osm3s_*
+chown www-data:www-data /home/osm/db/*
+sleep 10
+### for update
+nid=$(cat /home/osm/db/replicate_id)
+/home/osm/bin/fetch_osc.sh $nid "http:/planet.osm.org/replication/minute/"  /home/osm/diff-minute/ &
+sleep 60
+pushd /home/osm/bin
+./apply_osc_to_db.sh /home/osm/diff-hourly/ $nid --meta=attic &
+./rules_loop.sh "db/" &
+popd
+
