@@ -4,3 +4,6 @@
 [submodule "services/overpass-turbo"]
 	path = services/overpass-turbo
 	url = https://github.com/tyrasd/overpass-turbo.git
+[submodule "services/achavi"]
+	path = services/achavi
+	url = https://github.com/nrenner/achavi.git
