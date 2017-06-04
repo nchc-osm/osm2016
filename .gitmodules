@@ -1,0 +1,3 @@
+[submodule "services/Overpass-API"]
+	path = services/Overpass-API
+	url = https://github.com/drolbr/Overpass-API.git
