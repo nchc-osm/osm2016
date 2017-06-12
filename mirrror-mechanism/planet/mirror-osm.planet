@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 SOURCE="rsync://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org"
-LOCAL="/mnt/tux.nfs/packages/osm.planet"
+LOCAL="/[your_planet_storage-path]/osm.planet"
 WEB_PAGE="http://planet.osm.org/"
 
 # deal with ~/gps
@@ -32,8 +32,8 @@ rsync -avP "$SOURCE/tile_logs/" "$LOCAL/tile_logs/"
 [ ! -d "$LOCAL/users_agreed" ] && mkdir "$LOCAL/users_agreed"
 rsync -avP "$SOURCE/users_agreed/" "$LOCAL/users_agreed/"
 
-#pushd $LOCAL
-#wget "$WEB_PAGE"
-#popd
+pushd $LOCAL
+wget "$WEB_PAGE" -O index.html
+popd
 
 exit 0;

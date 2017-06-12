@@ -6,11 +6,11 @@
 _LOGFILE=/tmp/system-chechk.log
 _NEW_ALERT=0
 
-_ADMIN_LIST="Ceasar Sun<ceasar@nchc.org.tw>, Steven<steven@nchc.org.tw>"
-_ADMIN_LIST_CC="Thomas<thomas@nchc.org.tw>"
+_ADMIN_LIST="Sys_admin01<admin01@email.address>, Sys_admin02<admin02@email.address>"
+_ADMIN_LIST_CC="other<other@email.address>"
 
-_SPACE_CHECK_DEVICE="/:5 /mnt/RAID1:100"
-#_MIN_FREE_SPACE=100	# GB 
+# [FS_path]:alert_if_less_than_space
+_SPACE_CHECK_DEVICE="/:5 /[monitor_FS_path/:100"
 SLOAT_NUM_LIST="5"	# 
 
 _Alert_Num=0
@@ -44,14 +44,9 @@ for slot_num in $SLOAT_NUM_LIST ; do
 done
 [ -n "$_NEW_ALERTMSG_04" ] && [ "$_NEW_ALERTMSG_04" != "$_ALERTMSG_04" ] && _NEW_ALERT=1 && _Alert_Num=$(expr $_Alert_Num + 1)
 
-# check 5: if 30T NFS be mounted
-_nfs_num_in_fstab="$(grep -E '^140.110.125.29:/ibm/freeswlab_fs/freeswlab_dir.* nfs' /etc/fstab | wc -l)"
-_nfs_num_current="$(mount | grep -E '^140.110.125.29:/ibm/freeswlab_fs/freeswlab_dir.* nfs' | wc -l)"
-[ $_nfs_num_in_fstab -ne $_nfs_num_current ] && _NEW_ALERTMSG_05="30T NFS error !" && _NEW_ALERT=1 && _Alert_Num=$(expr $_Alert_Num + 1)
-
-# check 6: if system reboot required
+# check 5: if system reboot required
 [ -e "/var/run/reboot-required" ] && _NEW_ALERTMSG_06="System reboot required !!" && _Alert_Num=$(expr $_Alert_Num + 1)
-[ -n "$_NEW_ALERTMSG_06" ] && [ "$_NEW_ALERTMSG_06" != "$_ALERTMSG_06" ] && _NEW_ALERT=1
+[ -n "$_NEW_ALERTMSG_05" ] && [ "$_NEW_ALERTMSG_05" != "$_ALERTMSG_05" ] && _NEW_ALERT=1
 
 
 # Create log file
@@ -90,8 +85,6 @@ _ALERTMSG_04="$_NEW_ALERTMSG_04"
 # check 5: if 30T NFS is stable
 _ALERTMSG_05="$_NEW_ALERTMSG_05"
 
-# check 6: if system reboot required
-_ALERTMSG_06="$_NEW_ALERTMSG_06"
 
 EOF
 
