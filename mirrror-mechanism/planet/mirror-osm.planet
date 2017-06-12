@@ -1,0 +1,39 @@
+#!/bin/bash 
+
+SOURCE="rsync://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org"
+LOCAL="/mnt/tux.nfs/packages/osm.planet"
+WEB_PAGE="http://planet.osm.org/"
+
+# deal with ~/gps
+[ ! -d "$LOCAL/gps" ] && mkdir "$LOCAL/gps"
+rsync -avP "$SOURCE/gps/" "$LOCAL/gps/"
+
+# deal with ~/notes
+[ ! -d "$LOCAL/notes" ] && mkdir "$LOCAL/notes"
+rsync -avP "$SOURCE/notes/" "$LOCAL/notes/"
+
+# deal with ~/pbf
+[ ! -d "$LOCAL/pbf" ] && mkdir "$LOCAL/pbf"
+rsync -avP --exclude=full-history "$SOURCE/pbf/" "$LOCAL/pbf/"
+
+# deal with ~/planet
+[ ! -d "$LOCAL/planet" ] && mkdir "$LOCAL/planet"
+rsync -avP --exclude=full-history --exclude=experimental --exclude=2012 --exclude=2013 --exclude=2014 --exclude=2015  "$SOURCE/planet/" "$LOCAL/planet/"
+
+# deal with ~/replication
+[ ! -d "$LOCAL/replication" ] && mkdir "$LOCAL/replication"
+rsync -avP "$SOURCE/replication/" "$LOCAL/replication/"
+
+# deal with ~/tile_logs
+[ ! -d "$LOCAL/tile_logs" ] && mkdir "$LOCAL/tile_logs"
+rsync -avP "$SOURCE/tile_logs/" "$LOCAL/tile_logs/"
+
+# deal with ~/users_agreed
+[ ! -d "$LOCAL/users_agreed" ] && mkdir "$LOCAL/users_agreed"
+rsync -avP "$SOURCE/users_agreed/" "$LOCAL/users_agreed/"
+
+#pushd $LOCAL
+#wget "$WEB_PAGE"
+#popd
+
+exit 0;

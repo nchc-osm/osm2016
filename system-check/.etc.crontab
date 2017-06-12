@@ -1,0 +1,8 @@
+# system check and alert via mail if necessary
+8 * * * * root /home/ceasar/bin/system-check.sh > /dev/null
+# backup important configuration/shell/command-dump data 
+10 2 * * * root /home/aptadm/bat/service-conf-backup > /dev/null
+
+
+25    3 * * * /home/aptadm/bat/mirror-osm.planet
+
