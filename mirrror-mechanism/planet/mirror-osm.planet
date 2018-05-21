@@ -4,6 +4,8 @@ SOURCE="rsync://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org"
 LOCAL="/[your_planet_storage-path]/osm.planet"
 WEB_PAGE="http://planet.osm.org/"
 
+rsync -avP --delete --dry-run -f"- */" -f"+ *" "$SOURCE/" "$LOCAL/"
+
 # deal with ~/gps
 [ ! -d "$LOCAL/gps" ] && mkdir "$LOCAL/gps"
 rsync -avP "$SOURCE/gps/" "$LOCAL/gps/"

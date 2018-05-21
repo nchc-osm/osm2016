@@ -11,6 +11,7 @@ _ADMIN_LIST_CC="other<other@email.address>"
 
 # [FS_path]:alert_if_less_than_space
 _SPACE_CHECK_DEVICE="/:5 /[monitor_FS_path/:100"
+
 SLOAT_NUM_LIST="5"	# 
 
 _Alert_Num=0
@@ -38,15 +39,19 @@ done
 [ -n "$_NEW_ALERTMSG_03" ] && [ "$_NEW_ALERTMSG_03" != "$_ALERTMSG_03" ] && _NEW_ALERT=1 && _Alert_Num=$(expr $_Alert_Num + 1)
 
 # check 4: if system RAID be stable
-for slot_num in $SLOAT_NUM_LIST ; do
-	error_num="$(hpacucli controller slot=$slot_num logicaldrive all show status | grep -iv ':[[:space:]]*ok$' | awk '{print $2}')"
-	[ -n "$error_num" ] && _NEW_ALERTMSG_04="$_NEW_ALERTMSG_04 Error logical drives:'$error_num' of RAID slot #$slot_num !!;"
-done
-[ -n "$_NEW_ALERTMSG_04" ] && [ "$_NEW_ALERTMSG_04" != "$_ALERTMSG_04" ] && _NEW_ALERT=1 && _Alert_Num=$(expr $_Alert_Num + 1)
+#for slot_num in $SLOAT_NUM_LIST ; do
+#	error_num="$(hpacucli controller slot=$slot_num logicaldrive all show status | grep -iv ':[[:space:]]*ok$' | awk '{print $2}')"
+#	[ -n "$error_num" ] && _NEW_ALERTMSG_04="$_NEW_ALERTMSG_04 Error logical drives:'$error_num' of RAID slot #$slot_num !!;"
+#done
+#[ -n "$_NEW_ALERTMSG_04" ] && [ "$_NEW_ALERTMSG_04" != "$_ALERTMSG_04" ] && _NEW_ALERT=1 && _Alert_Num=$(expr $_Alert_Num + 1)
 
-# check 5: if system reboot required
+# check 5: if 30T NFS be mounted
+_nfs_num_current="$(mount -t nfs| wc -l)"
+[ $_nfs_num_in_fstab -ne 1 ] && _NEW_ALERTMSG_05="TUX NFS error !" && _NEW_ALERT=1 && _Alert_Num=$(expr $_Alert_Num + 1)
+
+# check 6: if system reboot required
 [ -e "/var/run/reboot-required" ] && _NEW_ALERTMSG_06="System reboot required !!" && _Alert_Num=$(expr $_Alert_Num + 1)
-[ -n "$_NEW_ALERTMSG_05" ] && [ "$_NEW_ALERTMSG_05" != "$_ALERTMSG_05" ] && _NEW_ALERT=1
+[ -n "$_NEW_ALERTMSG_06" ] && [ "$_NEW_ALERTMSG_06" != "$_ALERTMSG_06" ] && _NEW_ALERT=1
 
 
 # Create log file
@@ -85,6 +90,8 @@ _ALERTMSG_04="$_NEW_ALERTMSG_04"
 # check 5: if 30T NFS is stable
 _ALERTMSG_05="$_NEW_ALERTMSG_05"
 
+# check 6: if system reboot required
+_ALERTMSG_06="$_NEW_ALERTMSG_06"
 
 EOF
 
